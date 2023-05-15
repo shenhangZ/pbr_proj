@@ -91,10 +91,11 @@ float4 fragPBRForwardBase(VertexPBROutput i) : SV_Target
              _ColorG.rgb * texColor.g * _ColorG.a + 
              _ColorB.rgb * texColor.b * _ColorB.a) * _Color.rgb * float(8);
 
-    float2 newuv= float2(i.uv0.x-1,i.uv0.y);
+    float2 newuv= float2(i.uv0.x-1, i.uv0.y);
     float4 newColor = tex2D(_MainTex,TRANSFORM_TEX(newuv, _MainTex));
     float3 diffuseColor2 = (newColor.rgb * _Color.rgb);
     
+    // 对于UV大于1的部分作为mask区域
     float uvlow = step(i.uv0.x, 1); 
     float uvhigh = 1 - uvlow;
     float3 diffuseColor = diffuseColor1 * uvlow + diffuseColor2 * uvhigh;
